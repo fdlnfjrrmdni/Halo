@@ -20,6 +20,7 @@ export default class SimpleHeader extends Component {
             rightIcon : this.props.rightIcon,
             leftIcon  : this.props.leftIcon,
             centerIcon: this.props.centerIcon,
+            centerPress: this.props.centerPress,
         };
     }
 
@@ -41,7 +42,7 @@ export default class SimpleHeader extends Component {
                     {this.state.centerIcon && 
                         <Image style={{width: 28, height: 28, marginRight: 5}}
                            source={this.state.centerIcon} />}
-                    <Text numberOfLines={1} style={{fontSize: 20, fontWeight: '500', color: '#000'}}>{this.state.title}</Text>
+                    <Text onPress={this.state.centerPress} numberOfLines={1} style={{fontSize: 20, fontWeight: '500', color: '#000'}}>{this.state.title}</Text>
                 </View>
                 <TouchableOpacity onPress={this.state.rightPress} style={{marginRight:10, width: '15%'}}>
                     <Image style={{margin:10, width: 28, height: 28}}

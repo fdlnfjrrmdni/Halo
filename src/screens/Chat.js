@@ -13,6 +13,8 @@ export default class Chat extends Component {
 			person: {
 				name: props.navigation.getParam('name'),
 				uid: props.navigation.getParam('uid'),
+				email: props.navigation.getParam('email'),
+				phone: props.navigation.getParam('phone')
 			},
 			textMessage: '',
 			messageList: [],
@@ -20,21 +22,6 @@ export default class Chat extends Component {
 			uid: firebase.auth().currentUser.uid,
 			name: '',
 		}
-
-		// let dbRef = firebase.database().ref('users');
-		// dbRef.on('child_added', (val)=>{
-		// 	let person = val.val();
-		// 	person.uid = val.key;
-		// 	if(person.uid===this.state.uid){
-		// 		this.state.name = person.name
-		// 	}else{
-		// 		this.setState((prevState)=>{
-		// 			return{
-		// 				users: [...prevState.users, person]
-		// 			}
-		// 		})
-		// 	}
-		// })
 	}
 
 	componentWillMount() {
@@ -99,10 +86,11 @@ export default class Chat extends Component {
 
 	render() {
 		return (
-			<View style={{height: '100%'}}>
+			<View style={{height: '100%', backgroundColor: '#00000005',}}>
 				<StatusBar backgroundColor="transparent" barStyle="dark-content" />
 				<Header 
 					title={this.state.person.name}
+					centerPress={() => this.props.navigation.navigate('Friend', this.state.person)}
 					leftIcon={require('../assets/icons/left.png')}
 					leftPress={() => this.props.navigation.goBack()}
 					rightIcon={require('../assets/icons/pin.png')}

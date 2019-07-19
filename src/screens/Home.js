@@ -79,21 +79,10 @@ const styles = StyleSheet.create({
 		width          : '100%',
 		backgroundColor: '#00000005',
 	},
-	blurArea: {
-		width          : '100%', 
-		height         : '100%', 
-		backgroundColor: '#00000090'
-	},
 	alert: {
 		flex          : 1,
 		justifyContent: 'center',
 		alignItems    : 'center',
-	},
-	alertContent: {
-		width          : '60%',
-		height         : '40%',
-		backgroundColor: '#fff',
-		borderRadius   : 20,
 	},
 	cardMessage: {
 		backgroundColor: '#fff',

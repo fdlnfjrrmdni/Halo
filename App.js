@@ -7,6 +7,7 @@ import Login from './src/screens/Login';
 import Home from './src/screens/Home';
 import Chat from './src/screens/Chat';
 import Profile from './src/screens/Profile';
+import Friend from './src/screens/Friend';
 import Maps from './src/screens/Maps';
 import Header from './src/component/Header';
 
@@ -24,6 +25,9 @@ const AppStack = createStackNavigator(
         Maps: {
             screen: Maps
         },
+        Friend: {
+            screen: Friend
+        }
     },
     {
         headerMode: 'none',
