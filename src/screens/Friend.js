@@ -32,10 +32,9 @@ export default class Profile extends Component {
 				/>
 				<View style={styles.content}>
 					<Image style={{width: 100, height: 100, borderRadius: 100}} source={{uri: 'https://i1.wp.com/static.teamtreehouse.com/assets/content/default_avatar-ea7cf6abde4eec089a4e03cc925d0e893e428b2b6971b12405a9b118c837eaa2.png?ssl=1'}}/>
-					<Text style={[styles.text, {fontSize: 20, padding: 10}]}>{this.state.person.name}</Text>
-					<Text style={[styles.text, {padding: 5}]}>{this.state.person.email}</Text>
-					<Text style={[styles.text, {padding: 5}]}>{this.state.person.phone}</Text>
-					<Text style={[styles.text, {color: '#00000050',padding: 10}]} onPress={() => this.setModalVisible(true)}>Log out</Text>
+					<Text numberOfLines={2} style={[styles.text, {fontSize: 20, padding: 10}]}>{this.state.person.name}</Text>
+					<Text numberOfLines={1} style={[styles.text, {padding: 5}]}>{this.state.person.email}</Text>
+					<Text numberOfLines={1} style={[styles.text, {padding: 5}]}>{this.state.person.phone}</Text>
 				</View>
 				<Modal
 			        animationType="fade"

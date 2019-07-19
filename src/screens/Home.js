@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Text, View, StyleSheet, StatusBar, TouchableOpacity, Modal, FlatList } from 'react-native';
+import { Text, View, StyleSheet, StatusBar, TouchableOpacity, Modal, FlatList, Image } from 'react-native';
 import firebase from 'firebase';
 import Header from '../component/Header';
 import { colors, fonts } from './style';
@@ -39,11 +39,12 @@ export default class Home extends Component {
 		return(
 			<TouchableOpacity style={{marginTop: 2}} onPress={() => this.props.navigation.navigate('Chat', item)}>
 				<View style={styles.cardMessage}>
+					<Image style={{width: 40, height: 40, borderRadius: 100, marginRight: 10}} source={{uri: 'https://i1.wp.com/static.teamtreehouse.com/assets/content/default_avatar-ea7cf6abde4eec089a4e03cc925d0e893e428b2b6971b12405a9b118c837eaa2.png?ssl=1'}}/>
 					<View style={{flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between'}}>
 						<Text style={styles.name}>{item.name}</Text>
-						<Text style={styles.date}>10:05</Text>
+						{/* <Text style={styles.date}>10:05</Text> */}
 					</View>
-					<Text numberOfLines={1}>This is example of message bla bla bla, This is example of message bla bla bla, This is example of message bla bla bla, </Text>
+					{/* <Text numberOfLines={1}>This is example of message bla bla bla, This is example of message bla bla bla, This is example of message bla bla bla, </Text> */}
 				</View>
 			</TouchableOpacity>
 		)
@@ -90,6 +91,7 @@ const styles = StyleSheet.create({
 		padding          : 20,
 		paddingTop       : 15,
 		paddingBottom    : 15,
+		flexDirection: 'row'
 	},
 	name: {
 		fontSize: fonts.md,

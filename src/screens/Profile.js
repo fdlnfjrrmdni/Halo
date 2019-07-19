@@ -9,16 +9,22 @@ export default class Profile extends Component {
 		super(props);
 		this.state = {
 			modalVisible: false,
+			modalVisibleImg: false,
 			person: {
 				name: props.navigation.getParam('name'),
 				email: props.navigation.getParam('email'),
 				phone: props.navigation.getParam('phone'),
 			},
+			url: '',
 		}
 	}
 
 	setModalVisible(visible) {
 	    this.setState({modalVisible: visible});
+	}
+
+	setModalVisibleImg(visible) {
+	    this.setState({modalVisibleImg: visible});
 	}
 
 	render() {
@@ -31,12 +37,16 @@ export default class Profile extends Component {
 					leftPress={() => this.props.navigation.goBack()}
 				/>
 				<View style={styles.content}>
-					<Image style={{width: 100, height: 100, borderRadius: 100}} source={{uri: 'https://i1.wp.com/static.teamtreehouse.com/assets/content/default_avatar-ea7cf6abde4eec089a4e03cc925d0e893e428b2b6971b12405a9b118c837eaa2.png?ssl=1'}}/>
-					<Text style={[styles.text, {fontSize: 20, padding: 10}]}>{this.state.person.name}</Text>
-					<Text style={[styles.text, {padding: 5}]}>{this.state.person.email}</Text>
-					<Text style={[styles.text, {padding: 5}]}>{this.state.person.phone}</Text>
+					<TouchableOpacity  onPress={() => this.setModalVisibleImg(true)}>
+						<Image style={{width: 100, height: 100, borderRadius: 100}} source={{uri: 'https://i1.wp.com/static.teamtreehouse.com/assets/content/default_avatar-ea7cf6abde4eec089a4e03cc925d0e893e428b2b6971b12405a9b118c837eaa2.png?ssl=1'}}/>
+					</TouchableOpacity>
+					<Text numberOfLines={2} style={[styles.text, {fontSize: 20, padding: 10}]}>{this.state.person.name}</Text>
+					<Text numberOfLines={1} style={[styles.text, {padding: 5}]}>{this.state.person.email}</Text>
+					<Text numberOfLines={1} style={[styles.text, {padding: 5}]}>{this.state.person.phone}</Text>
 					<Text style={[styles.text, {color: '#00000050',padding: 10}]} onPress={() => this.setModalVisible(true)}>Log out</Text>
 				</View>
+
+				{/*Modal Logout*/}
 				<Modal
 			        animationType="fade"
 			        transparent={true}
@@ -54,6 +64,35 @@ export default class Profile extends Component {
 		          			<View style={{flexDirection: 'row'}}>
 		          				<Text style={{textAlign: 'center', borderRightWidth:0.5, borderColor: '#00000020', width: '50%', padding: 15, fontSize: 20, color: colors.blue}} onPress={() => firebase.auth().signOut()}>Yes</Text>
 		          				<Text style={{textAlign: 'center', borderLeftWidth:0.5, borderColor: '#00000020', width: '50%', padding: 15, fontSize: 20, color: colors.blue}} onPress={() => this.setModalVisible(!this.state.modalVisible)}>Cancel</Text>
+		          			</View>
+			          	</View>
+		          	</View>
+		        </Modal>
+
+		    	{/*Modal Input URL*/}
+		        <Modal
+			        animationType="fade"
+			        transparent={true}
+			        visible={this.state.modalVisibleImg}
+			        onRequestClose={() => {
+			                  this.setModalVisibleImg(!this.state.modalVisibleImg);
+			                }}>
+		          	<View style={styles.blurArea}>
+		          		<StatusBar backgroundColor="#00000090" barStyle="dark-content" />
+		          		<View style={{flexDirection: 'column', backgroundColor: '#fff', borderRadius: 15, maxWidth: '90%'}}>
+		          			<View style={{padding: 20, paddingLeft: 0, paddingRight: 0, alignItems: 'center', justifyContent: 'center', borderBottomWidth: 1, borderColor: '#00000020'}}>
+		          				<Text style={{fontWeight: '500', fontSize: 20, color: '#000', marginBottom: 10}}>Upload Image</Text>
+		          				<TextInput 
+		          					placeholder    ="URL"
+									autoCapitalize ="none"
+									style          ={styles.textInput}
+									onChangeText   ={url => this.setState({ url })}
+									value          ={this.state.url}
+		          				/>
+		          			</View>
+		          			<View style={{flexDirection: 'row'}}>
+		          				<Text style={{textAlign: 'center', borderRightWidth:0.5, borderColor: '#00000020', width: '50%', padding: 15, fontSize: 20, color: colors.blue}} >Upload</Text>
+		          				<Text style={{textAlign: 'center', borderLeftWidth:0.5, borderColor: '#00000020', width: '50%', padding: 15, fontSize: 20, color: colors.blue}} onPress={() => this.setModalVisibleImg(!this.state.modalVisibleImg)}>Cancel</Text>
 		          			</View>
 			          	</View>
 		          	</View>
@@ -79,5 +118,14 @@ const styles = StyleSheet.create({
 		backgroundColor: '#00000090',
 		justifyContent: 'center',
 		alignItems: 'center',
-	}
+	},
+	textInput: {
+		height         : 50,
+		fontSize       : fonts.md,
+		width          : '80%',
+		backgroundColor: '#00000010',
+		borderRadius   : 12,
+		paddingLeft    : 15,
+		paddingRight   : 15,
+	},
 });
