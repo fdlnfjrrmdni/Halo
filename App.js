@@ -1,6 +1,6 @@
 import  React, { Component } from 'react';
 import { View, StatusBar } from 'react-native';
-import { createAppContainer, createSwitchNavigator } from 'react-navigation';
+import { createAppContainer, createSwitchNavigator, createStackNavigator } from 'react-navigation';
 import Loading from './src/screens/Loading'; 
 import SignUp from './src/screens/SignUp';
 import Login from './src/screens/Login';
@@ -10,16 +10,33 @@ import Profile from './src/screens/Profile';
 import Maps from './src/screens/Maps';
 import Header from './src/component/Header';
 
+const AppStack = createStackNavigator(
+    {
+        Home: {
+            screen: Home
+        },
+        Chat: {
+            screen: Chat
+        },
+        Profile: {
+            screen: Profile
+        },
+        Maps: {
+            screen: Maps
+        },
+    },
+    {
+        headerMode: 'none',
+        initialRouteName: 'Home'
+    }
+);
+
 const SwitchNavigator = createSwitchNavigator(
   {
+    App: AppStack,
     Loading,
     SignUp,
     Login,
-    Home,
-    Chat,
-    Profile,
-    Maps,
-    Header
   },
   {
     initialRouteName: 'Loading'

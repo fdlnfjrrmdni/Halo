@@ -2,20 +2,19 @@ import React, { Component } from 'react';
 import { Text, View, StyleSheet, StatusBar, TouchableOpacity, Modal, FlatList } from 'react-native';
 import firebase from 'firebase';
 import Header from '../component/Header';
-import User from '../User';
 import { colors, fonts } from './style';
 
 export default class Home extends Component {
 	state = {
-		modalVisible: false,
 		users       : [],
-		name: '',
-		uid: firebase.auth().currentUser.uid,
+		name        : '',
+		currUser 	: {
+			name : '',
+			email: '',
+			phone: '',
+		},
+		uid         : firebase.auth().currentUser.uid,
 	};
-
-	setModalVisible(visible) {
-	    this.setState({modalVisible: visible});
-	}
 
 	componentWillMount() {
 		let dbRef = firebase.database().ref('users');
@@ -23,7 +22,9 @@ export default class Home extends Component {
 			let person = val.val();
 			person.uid = val.key;
 			if(person.uid===this.state.uid){
-				this.state.name = person.name
+				this.state.currUser.name = person.name;
+				this.state.currUser.email = person.email;
+				this.state.currUser.phone = person.phone;
 			}else{
 				this.setState((prevState)=>{
 					return{
@@ -49,14 +50,13 @@ export default class Home extends Component {
 	}
 
 	render() {
-		console.log(this.state.users);
 		return (
 			<View>
 				<StatusBar backgroundColor="transparent" barStyle="dark-content" />
 				<View style={styles.container}>
 					<Header 
 						leftIcon={require('../assets/icons/profile.png')}
-						leftPress={() => this.props.navigation.navigate('Profile', this.state.users)}
+						leftPress={() => this.props.navigation.navigate('Profile', this.state.currUser)}
 						rightIcon={require('../assets/icons/maps.png')}
 						rightPress={() => this.props.navigation.navigate('Maps')}
 						title='Chat'
@@ -67,24 +67,6 @@ export default class Home extends Component {
 						renderItem={this.renderRow}
 						keyExtractor={(item)=>item.phone}
 					/>
-					<Text onPress={() => firebase.auth().signOut()} style={styles.logout}>Logout</Text>
-					
-					<Modal
-				        animationType="fade"
-				        transparent={true}
-				        visible={this.state.modalVisible}
-				        onRequestClose={() => {
-				                  this.setModalVisible(!this.state.modalVisible);
-				                }}>
-			          	<View style={styles.blurArea}>
-			          		<StatusBar backgroundColor="#00000090" barStyle="dark-content" />
-			          		<View style={styles.alert}>
-				          		<View style={styles.alertContent}>
-				          			<Text onPress={() => firebase.auth().signOut()} style={styles.logout}>Logout</Text>
-				          		</View>
-				          	</View>
-			          	</View>
-			        </Modal>
 				</View>
 			</View>
 		)
@@ -113,12 +95,6 @@ const styles = StyleSheet.create({
 		backgroundColor: '#fff',
 		borderRadius   : 20,
 	},
-	logout: {
-		backgroundColor: colors.red,
-		padding        : 10,
-		color          : '#fff',
-		bottom         : 0,
-	},
 	cardMessage: {
 		backgroundColor: '#fff',
 		width            : '100%',
@@ -127,8 +103,8 @@ const styles = StyleSheet.create({
 		paddingBottom    : 15,
 	},
 	name: {
-		fontSize       : fonts.md,
-		color: '#000',
+		fontSize: fonts.md,
+		color   : '#000',
 	},
 	date: {
 		fontSize: fonts.sm,
