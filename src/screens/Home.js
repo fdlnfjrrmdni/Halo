@@ -1,88 +1,74 @@
 import React, { Component } from 'react';
-import { Text, View, StyleSheet, StatusBar, Modal, FlatList } from 'react-native';
+import { Text, View, StyleSheet, StatusBar, TouchableOpacity, Modal, FlatList } from 'react-native';
 import firebase from 'firebase';
-import Carousel from 'react-native-snap-carousel';
 import Header from '../component/Header';
+import User from '../User';
 import { colors, fonts } from './style';
 
 export default class Home extends Component {
-	constructor(props){
-	    super();
-	    this.state = {
-		    errors: [],
-		    modalVisible: false,
-	    }
-	    this.props = props;
-	    this._carousel = {};
-	    this.init();
-	}
-
-	init(){
-    this.state = {
-	    videos: [
-	        {
-	          id: "WpIAc9by5iU",
-	          thumbnail: "https://img.youtube.com/vi/D9ioyEvdggk/hqdefault.jpg",
-	          title: "Led Zeppelin - Stairway To Heaven"
-	        }, {
-	          id: "sNPnbI1arSE",
-	          thumbnail: "https://img.youtube.com/vi/sNPnbI1arSE/hqdefault.jpg",
-	          title: "Eminem - My Name Is"
-	        }, {
-	          id: "VOgFZfRVaww",
-	          thumbnail: "https://img.youtube.com/vi/VOgFZfRVaww/hqdefault.jpg",
-	          title: ""
-	        }
-	    ]
+	state = {
+		modalVisible: false,
+		users       : [],
+		name: '',
+		uid: firebase.auth().currentUser.uid,
 	};
-
-	    console.log("ThumbnailCarousel Props: ", this.props)
-	}
 
 	setModalVisible(visible) {
 	    this.setState({modalVisible: visible});
 	}
 
-	componentDidMount() {
-		const { currentUser } = firebase.auth();
-    	this.setState({ currentUser });
+	componentWillMount() {
+		let dbRef = firebase.database().ref('users');
+		dbRef.on('child_added', (val)=>{
+			let person = val.val();
+			person.uid = val.key;
+			if(person.uid===this.state.uid){
+				this.state.name = person.name
+			}else{
+				this.setState((prevState)=>{
+					return{
+						users: [...prevState.users, person]
+					}
+				})
+			}
+		})
 	}
 
-	_renderItem ({item, index}) {
-        return (
-            <View style={styles.slide}>
-                <Text style={styles.title}>{ item.title }</Text>
-            </View>
-        );
-    }
+	renderRow = ({item}) => {
+		return(
+			<TouchableOpacity style={{marginTop: 2}} onPress={() => this.props.navigation.navigate('Chat', item)}>
+				<View style={styles.cardMessage}>
+					<View style={{flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between'}}>
+						<Text style={styles.name}>{item.name}</Text>
+						<Text style={styles.date}>10:05</Text>
+					</View>
+					<Text numberOfLines={1}>This is example of message bla bla bla, This is example of message bla bla bla, This is example of message bla bla bla, </Text>
+				</View>
+			</TouchableOpacity>
+		)
+	}
 
 	render() {
-		const { currentUser } = this.state;
-
+		console.log(this.state.users);
 		return (
 			<View>
 				<StatusBar backgroundColor="transparent" barStyle="dark-content" />
 				<View style={styles.container}>
 					<Header 
-						leftIcon={require('../assets/icons/oldman.png')} 
-						rightIcon={require('../assets/icons/door.png')}
-						rightPress={() => {this.setModalVisible(true)}}/>
-					<Carousel
-						layout={'default'}
-		              ref={(c) => { this._carousel = c; }}
-		              data={[
-		              	{
-		              		name: 'Fadlan',
-		              		message: 'Hai'
-		              	},{
-		              		name: 'Noah',
-		              		message: 'Halo',
-		              	}
-		              ]}
-		              renderItem={this._renderItem}
-		              sliderWidth={200}
-		              itemWidth={100}
-		            />
+						leftIcon={require('../assets/icons/profile.png')}
+						leftPress={() => this.props.navigation.navigate('Profile', this.state.users)}
+						rightIcon={require('../assets/icons/maps.png')}
+						rightPress={() => this.props.navigation.navigate('Maps')}
+						title='Chat'
+					/>
+
+					<FlatList
+						data={this.state.users}
+						renderItem={this.renderRow}
+						keyExtractor={(item)=>item.phone}
+					/>
+					<Text onPress={() => firebase.auth().signOut()} style={styles.logout}>Logout</Text>
+					
 					<Modal
 				        animationType="fade"
 				        transparent={true}
@@ -107,33 +93,44 @@ export default class Home extends Component {
 
 const styles = StyleSheet.create({
 	container: {
-		height: '100%',
-		width: '100%',
-		backgroundColor: '#fff',
+		height         : '100%',
+		width          : '100%',
+		backgroundColor: '#00000005',
 	},
 	blurArea: {
-		width: '100%', 
-		height: '100%', 
+		width          : '100%', 
+		height         : '100%', 
 		backgroundColor: '#00000090'
 	},
 	alert: {
-		flex: 1,
+		flex          : 1,
 		justifyContent: 'center',
-		alignItems: 'center',
+		alignItems    : 'center',
 	},
 	alertContent: {
-		width: '60%',
-		height: '40%',
+		width          : '60%',
+		height         : '40%',
 		backgroundColor: '#fff',
-		borderRadius: 20,
+		borderRadius   : 20,
 	},
 	logout: {
 		backgroundColor: colors.red,
-		padding: 10,
-		color: '#fff',
-		bottom: 0,
+		padding        : 10,
+		color          : '#fff',
+		bottom         : 0,
 	},
 	cardMessage: {
-
+		backgroundColor: '#fff',
+		width            : '100%',
+		padding          : 20,
+		paddingTop       : 15,
+		paddingBottom    : 15,
+	},
+	name: {
+		fontSize       : fonts.md,
+		color: '#000',
+	},
+	date: {
+		fontSize: fonts.sm,
 	}
 })

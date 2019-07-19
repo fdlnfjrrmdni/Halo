@@ -5,16 +5,33 @@ import firebase from 'firebase';
 
 export default class SignUp extends Component {
 	state = { 
+		uid			: null,
 		email       : '',
+		name		: '',
+		phone		: '',
 		password    : '',
 		errorMessage: null,
 	}
 
 	handleSignUp = () => {
-	    firebase.auth()
-				.createUserWithEmailAndPassword(this.state.email, this.state.password)
-				.then(() => this.props.navigation.navigate('Home'))
-				.catch(error => this.setState({ errorMessage: error.message }))
+	    if(this.state.phone.length < 10){
+	      	Alert.alert('Error', 'wrong phone number');
+	    }else if(this.state.name.length < 3){
+	      	Alert.alert('Error', 'wrong name');
+	    }else{
+		    firebase.auth()
+					.createUserWithEmailAndPassword(this.state.email, this.state.password)
+					.then(() => {
+						const uid = firebase.auth().currentUser.uid;
+						firebase.database().ref('users/' + uid).set({
+							name: this.state.name,
+							phone: this.state.phone,
+							email: this.state.email,
+						});
+						this.props.navigation.navigate('Home');
+					})
+					.catch(error => this.setState({ errorMessage: error.message }));
+  		}
   	}
 
 	render() {
@@ -26,11 +43,25 @@ export default class SignUp extends Component {
 					<Text style={styles.textHead}>Sign Up</Text>
 				</View>
 				<TextInput
+					placeholder    ="Name"
+					autoCapitalize ="none"
+					style          ={[styles.textInput, {marginBottom: 10}]}
+					onChangeText   ={name => this.setState({ name })}
+					value          ={this.state.name}
+				/>
+				<TextInput
 					placeholder    ="Email"
 					autoCapitalize ="none"
 					style          ={[styles.textInput, {marginBottom: 10}]}
 					onChangeText   ={email => this.setState({ email })}
 					value          ={this.state.email}
+				/>
+				<TextInput
+					placeholder    ="Phone"
+					autoCapitalize ="none"
+					style          ={[styles.textInput, {marginBottom: 10}]}
+					onChangeText   ={phone => this.setState({ phone })}
+					value          ={this.state.phone}
 				/>
 				<View style={{flexDirection: 'row', width: '80%'}}>
 					<TextInput

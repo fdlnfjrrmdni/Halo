@@ -10,6 +10,20 @@ export default class Loading extends Component {
 		})
 	}
 
+	componentWillMount() {
+		const firebaseConfig = {
+			apiKey           : "AIzaSyDvXAGHdtNtaIXdg5DhJoy-l_uLmq4M4ko",
+			authDomain       : "halo-824ed.firebaseapp.com",
+			databaseURL      : "https://halo-824ed.firebaseio.com",
+			projectId        : "halo-824ed",
+			storageBucket    : "",
+			messagingSenderId: "50158119087",
+			appId            : "1:50158119087:web:7971e376bb9ba23a"
+		};
+
+		firebase.initializeApp(firebaseConfig);
+	}
+
 	render() {
 		return (
 			<View style={styles.container}>

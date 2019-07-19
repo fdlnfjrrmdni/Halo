@@ -33,17 +33,17 @@ export default class SimpleHeader extends Component {
 
         return (
             <View style={styles.headerContainer}>
-                <TouchableOpacity onPress={this.state.leftPress} style={{width: '15%'}}>
+                <TouchableOpacity onPress={this.state.leftPress} style={{marginLeft:10 ,width: '15%'}}>
                     <Image style={{margin:10,  width: 28, height: 28}}
                            source={this.state.leftIcon}/>
                 </TouchableOpacity>
-                <View style={{flexDirection: 'row', width: '70%'}}>
+                <View style={{justifyContent: 'center', flexDirection: 'row'}}>
                     {this.state.centerIcon && 
-                        <Image style={{width: 28, height: 28, marginRight: 5,}}
+                        <Image style={{width: 28, height: 28, marginRight: 5}}
                            source={this.state.centerIcon} />}
-                    <Text numberOfLines={1} style={{fontSize: 20, fontWeight: '500', color: '#000'}}>{currentUser && currentUser.email}</Text>
+                    <Text numberOfLines={1} style={{fontSize: 20, fontWeight: '500', color: '#000'}}>{this.state.title}</Text>
                 </View>
-                <TouchableOpacity onPress={this.state.rightPress} style={{width: '15%'}}>
+                <TouchableOpacity onPress={this.state.rightPress} style={{marginRight:10, width: '15%'}}>
                     <Image style={{margin:10, width: 28, height: 28}}
                            source={this.state.rightIcon}/>
                 </TouchableOpacity>
@@ -54,10 +54,10 @@ export default class SimpleHeader extends Component {
 
 const styles = StyleSheet.create({
     headerContainer: {
-        height         : 60,
-        width          : '90%',
-        margin         : 15,
-        borderRadius   : 20,
+        height         : 50,
+        width          : '100%',
+        borderBottomRightRadius: 20,
+        borderBottomLeftRadius: 25,
         flexDirection  : 'row',
         justifyContent : 'space-between',
         backgroundColor: '#fff',

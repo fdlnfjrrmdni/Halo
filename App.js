@@ -6,26 +6,20 @@ import SignUp from './src/screens/SignUp';
 import Login from './src/screens/Login';
 import Home from './src/screens/Home';
 import Chat from './src/screens/Chat';
-import firebase from 'firebase';
-
-const firebaseConfig = {
-  apiKey           : "AIzaSyDvXAGHdtNtaIXdg5DhJoy-l_uLmq4M4ko",
-  authDomain       : "halo-824ed.firebaseapp.com",
-  databaseURL      : "https://halo-824ed.firebaseio.com",
-  projectId        : "halo-824ed",
-  storageBucket    : "",
-  messagingSenderId: "50158119087",
-  appId            : "1:50158119087:web:7971e376bb9ba23a"
-};
-
-firebase.initializeApp(firebaseConfig);
+import Profile from './src/screens/Profile';
+import Maps from './src/screens/Maps';
+import Header from './src/component/Header';
 
 const SwitchNavigator = createSwitchNavigator(
   {
     Loading,
     SignUp,
     Login,
-    Home
+    Home,
+    Chat,
+    Profile,
+    Maps,
+    Header
   },
   {
     initialRouteName: 'Loading'
