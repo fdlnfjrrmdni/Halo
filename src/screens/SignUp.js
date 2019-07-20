@@ -10,8 +10,27 @@ export default class SignUp extends Component {
 		name		: '',
 		phone		: '',
 		password    : '',
+		latitude    : null,
+		longitude   : null,
+		error       : null,
 		errorMessage: null,
 	}
+
+	componentDidMount() {
+	    navigator.geolocation.getCurrentPosition(
+	       	(position) => {
+	         	console.log("wokeeey");
+	         	console.log(position);
+	         	this.setState({
+		           	latitude: position.coords.latitude,
+		           	longitude: position.coords.longitude,
+		           	error: null,
+	         	});
+	       	},
+	       	(error) => this.setState({ error: error.message }),
+	       	{ enableHighAccuracy: false, timeout: 200000, maximumAge: 1000 },
+	    );
+   	}
 
 	handleSignUp = () => {
 	    if(this.state.phone.length < 10){
@@ -24,9 +43,11 @@ export default class SignUp extends Component {
 					.then(() => {
 						const uid = firebase.auth().currentUser.uid;
 						firebase.database().ref('users/' + uid).set({
-							name: this.state.name,
-							phone: this.state.phone,
-							email: this.state.email,
+							name     : this.state.name,
+							phone    : this.state.phone,
+							email    : this.state.email,
+							latitude : this.state.latitude,
+							longitude: this.state.longitude,
 						});
 						this.props.navigation.navigate('Home');
 					})
