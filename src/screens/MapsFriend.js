@@ -11,50 +11,17 @@ export default class Maps extends Component {
 
 	    this.state = {
 	    		modalVisible: false,
-		      	latitude: null,
-		      	longitude: null,
-		      	error:null,
 		      	person: {
 					name: props.navigation.getParam('name'),
 					email: props.navigation.getParam('email'),
 					phone: props.navigation.getParam('phone'),
 					url: props.navigation.getParam('url'),
+					longitude: props.navigation.getParam('langitude'),
+					latitude: props.navigation.getParam('latitude'),
 				},
-				users: [],
 				urldefault: 'https://i1.wp.com/static.teamtreehouse.com/assets/content/default_avatar-ea7cf6abde4eec089a4e03cc925d0e893e428b2b6971b12405a9b118c837eaa2.png?ssl=1',
 	    	};
   	}
-
-  	componentDidMount() {
-	    navigator.geolocation.getCurrentPosition(
-	       	(position) => {
-	         	console.log("wokeeey");
-	         	console.log(position);
-	         	this.setState({
-		           	latitude: position.coords.latitude,
-		           	longitude: position.coords.longitude,
-		           	error: null,
-	         	});
-	       	},
-	       	(error) => this.setState({ error: error.message }),
-	       	{ enableHighAccuracy: false, timeout: 200000, maximumAge: 1000 },
-	    );
-   	}
-
-   	componentWillMount() {
-		let dbRef = firebase.database().ref('users');
-		dbRef.on('child_added', (val)=>{
-			let person = val.val();
-			person.uid = val.key;
-			if(person.uid!==this.state.uid){
-				this.setState((prevState)=>{
-					return{
-						users: [...prevState.users, person]
-					}
-				})
-			}
-		})
-	}
 
    	setModalVisible(visible) {
 	    this.setState({modalVisible: visible});
@@ -74,14 +41,14 @@ export default class Maps extends Component {
 						provider ={PROVIDER_GOOGLE} // remove if not using Google Maps
 						style    ={styles.map}
 						region   ={{
-							latitude      : this.state.latitude || 37.78825,
-							longitude     : this.state.longitude || -122.4324,
+							latitude      : this.state.person.latitude || 37.78825,
+							longitude     : this.state.person.longitude || -122.4324,
 							latitudeDelta : 0.015,
 							longitudeDelta: 0.0121,
 				       	}}
 				    >
 				    	<MapView.Marker
-					       coordinate={{latitude: this.state.latitude || 37.78825, longitude: this.state.longitude || -122.4324}}
+					       coordinate={{latitude: this.state.person.latitude || 37.78825, longitude: this.state.person.longitude || -122.4324}}
 					       onPress={() => this.setModalVisible(true)}
 					    />
 				    </MapView>

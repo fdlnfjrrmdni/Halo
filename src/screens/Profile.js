@@ -14,9 +14,25 @@ export default class Profile extends Component {
 				name: props.navigation.getParam('name'),
 				email: props.navigation.getParam('email'),
 				phone: props.navigation.getParam('phone'),
+				url: props.navigation.getParam('url'),
 			},
 			url: '',
+			urldefault: 'https://i1.wp.com/static.teamtreehouse.com/assets/content/default_avatar-ea7cf6abde4eec089a4e03cc925d0e893e428b2b6971b12405a9b118c837eaa2.png?ssl=1',
+			uid: firebase.auth().currentUser.uid,
 		}
+	}
+
+	handleUpdate = () => {
+		let updates = {};
+		let data = {
+			url: this.state.url,
+			name: this.state.person.name,
+			email: this.state.person.email,
+			phone: this.state.person.phone,
+		}
+		updates['users/'+this.state.uid] = data;
+		firebase.database().ref().update(updates);
+		this.setState({url:''}); 
 	}
 
 	setModalVisible(visible) {
@@ -38,11 +54,17 @@ export default class Profile extends Component {
 				/>
 				<View style={styles.content}>
 					<TouchableOpacity  onPress={() => this.setModalVisibleImg(true)}>
-						<Image style={{width: 100, height: 100, borderRadius: 100}} source={{uri: 'https://i1.wp.com/static.teamtreehouse.com/assets/content/default_avatar-ea7cf6abde4eec089a4e03cc925d0e893e428b2b6971b12405a9b118c837eaa2.png?ssl=1'}}/>
+						<Image style={{width: 100, height: 100, borderRadius: 100}} source={{uri: this.state.person.url || this.state.urldefault}}/>
 					</TouchableOpacity>
-					<Text numberOfLines={2} style={[styles.text, {fontSize: 20, padding: 10}]}>{this.state.person.name}</Text>
-					<Text numberOfLines={1} style={[styles.text, {padding: 5}]}>{this.state.person.email}</Text>
-					<Text numberOfLines={1} style={[styles.text, {padding: 5}]}>{this.state.person.phone}</Text>
+					<Text numberOfLines={2} style={[styles.text, {fontSize: 24, padding: 10}]}>{this.state.person.name}</Text>
+					<View style={{flexDirection: 'row', justifyContent: 'center', alignItems: 'center'}}>
+						<Image style={{width: 20, height: 20, marginRight: 10}} source={require('../assets/icons/email.png')}/>
+						<Text numberOfLines={1} style={[styles.text, {padding: 5}]}>{this.state.person.email}</Text>
+					</View>
+					<View style={{flexDirection: 'row', justifyContent: 'center', alignItems: 'center'}}>
+						<Image style={{width: 20, height: 20, marginRight: 10}} source={require('../assets/icons/phone.png')}/>
+						<Text numberOfLines={1} style={[styles.text, {padding: 5}]}>{this.state.person.phone}</Text>
+					</View>
 					<Text style={[styles.text, {color: '#00000050',padding: 10}]} onPress={() => this.setModalVisible(true)}>Log out</Text>
 				</View>
 
@@ -91,7 +113,7 @@ export default class Profile extends Component {
 		          				/>
 		          			</View>
 		          			<View style={{flexDirection: 'row'}}>
-		          				<Text style={{textAlign: 'center', borderRightWidth:0.5, borderColor: '#00000020', width: '50%', padding: 15, fontSize: 20, color: colors.blue}} >Upload</Text>
+		          				<Text style={{textAlign: 'center', borderRightWidth:0.5, borderColor: '#00000020', width: '50%', padding: 15, fontSize: 20, color: colors.blue}} onPress={() => this.handleUpdate()}>Upload</Text>
 		          				<Text style={{textAlign: 'center', borderLeftWidth:0.5, borderColor: '#00000020', width: '50%', padding: 15, fontSize: 20, color: colors.blue}} onPress={() => this.setModalVisibleImg(!this.state.modalVisibleImg)}>Cancel</Text>
 		          			</View>
 			          	</View>
@@ -104,7 +126,7 @@ export default class Profile extends Component {
 
 const styles = StyleSheet.create({
 	content: {
-		marginTop: 10,
+		marginTop: 20,
 		justifyContent: 'center',
 		alignItems: 'center',
 	},

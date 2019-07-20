@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import { StyleSheet, Text, TextInput, View, Button, TouchableOpacity, StatusBar, Image, FlatList } from 'react-native';
 import Header from '../component/Header';
 import { colors, fonts, padding } from './style';
-// import User from '../User';
 import firebase from 'firebase';
 
 export default class Chat extends Component {
@@ -14,7 +13,10 @@ export default class Chat extends Component {
 				name: props.navigation.getParam('name'),
 				uid: props.navigation.getParam('uid'),
 				email: props.navigation.getParam('email'),
-				phone: props.navigation.getParam('phone')
+				phone: props.navigation.getParam('phone'),
+				url: props.navigation.getParam('url'),
+				longitude: props.navigation.getParam('langitude'),
+				latitude: props.navigation.getParam('latitude'),
 			},
 			textMessage: '',
 			messageList: [],
@@ -79,7 +81,7 @@ export default class Chat extends Component {
 				borderBottomRightRadius: item.from===this.state.uid ? 0 : 15,
  			}]}>
  				<Text style={{color: item.from===this.state.uid ? '#fff' : '#000', marginRight: 5, maxWidth: '70%'}}>{item.message}</Text>
- 				<Text style={{fontSize: 12, color: '#00000020'}}>{this.convertTime(item.time)}</Text>
+ 				<Text style={{fontSize: 12, color: item.from===this.state.uid ? '#ffffff80' : '#00000020' }}>{this.convertTime(item.time)}</Text>
 			</View>
 		)
 	}
@@ -94,6 +96,7 @@ export default class Chat extends Component {
 					leftIcon={require('../assets/icons/left.png')}
 					leftPress={() => this.props.navigation.goBack()}
 					rightIcon={require('../assets/icons/pin.png')}
+					rightPress={() => this.props.navigation.navigate('MapsFriend', this.state.person)}
 				/>
 				<FlatList
 					showsVerticalScrollIndicator={false}

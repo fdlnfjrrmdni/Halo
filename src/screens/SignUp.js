@@ -52,6 +52,7 @@ export default class SignUp extends Component {
 				<TextInput
 					placeholder    ="Email"
 					autoCapitalize ="none"
+					keyboardType   ="email-address"
 					style          ={[styles.textInput, {marginBottom: 10}]}
 					onChangeText   ={email => this.setState({ email })}
 					value          ={this.state.email}
@@ -59,6 +60,7 @@ export default class SignUp extends Component {
 				<TextInput
 					placeholder    ="Phone"
 					autoCapitalize ="none"
+					keyboardType   ="phone-pad"
 					style          ={[styles.textInput, {marginBottom: 10}]}
 					onChangeText   ={phone => this.setState({ phone })}
 					value          ={this.state.phone}

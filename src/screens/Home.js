@@ -9,9 +9,12 @@ export default class Home extends Component {
 		users       : [],
 		name        : '',
 		currUser 	: {
-			name : '',
-			email: '',
-			phone: '',
+			name     : '',
+			email    : '',
+			phone    : '',
+			url      : '',
+			longitude: '',
+			latitude : '',
 		},
 		uid         : firebase.auth().currentUser.uid,
 	};
@@ -25,6 +28,9 @@ export default class Home extends Component {
 				this.state.currUser.name = person.name;
 				this.state.currUser.email = person.email;
 				this.state.currUser.phone = person.phone;
+				this.state.currUser.url = person.url;
+				this.state.currUser.longitude = person.longitude;
+				this.state.currUser.latitude = person.latitude;
 			}else{
 				this.setState((prevState)=>{
 					return{
@@ -39,7 +45,7 @@ export default class Home extends Component {
 		return(
 			<TouchableOpacity style={{marginTop: 2}} onPress={() => this.props.navigation.navigate('Chat', item)}>
 				<View style={styles.cardMessage}>
-					<Image style={{width: 40, height: 40, borderRadius: 100, marginRight: 10}} source={{uri: 'https://i1.wp.com/static.teamtreehouse.com/assets/content/default_avatar-ea7cf6abde4eec089a4e03cc925d0e893e428b2b6971b12405a9b118c837eaa2.png?ssl=1'}}/>
+					<Image style={{width: 40, height: 40, borderRadius: 100, marginRight: 10}} source={{uri: item.url || this.state.urldefault}}/>
 					<View style={{flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between'}}>
 						<Text style={styles.name}>{item.name}</Text>
 						{/* <Text style={styles.date}>10:05</Text> */}
@@ -59,14 +65,14 @@ export default class Home extends Component {
 						leftIcon={require('../assets/icons/profile.png')}
 						leftPress={() => this.props.navigation.navigate('Profile', this.state.currUser)}
 						rightIcon={require('../assets/icons/maps.png')}
-						rightPress={() => this.props.navigation.navigate('Maps')}
+						rightPress={() => this.props.navigation.navigate('Maps', this.state.currUser)}
 						title='Chat'
 					/>
 
 					<FlatList
 						data={this.state.users}
 						renderItem={this.renderRow}
-						keyExtractor={(item)=>item.phone}
+						keyExtractor={(item)=>item.uid}
 					/>
 				</View>
 			</View>

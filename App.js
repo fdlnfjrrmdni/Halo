@@ -9,6 +9,7 @@ import Chat from './src/screens/Chat';
 import Profile from './src/screens/Profile';
 import Friend from './src/screens/Friend';
 import Maps from './src/screens/Maps';
+import MapsFriend from './src/screens/MapsFriend';
 import Header from './src/component/Header';
 
 const AppStack = createStackNavigator(
@@ -27,6 +28,9 @@ const AppStack = createStackNavigator(
         },
         Friend: {
             screen: Friend
+        },
+        MapsFriend: {
+            screen: MapsFriend
         }
     },
     {

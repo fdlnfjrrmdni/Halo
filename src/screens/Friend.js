@@ -13,7 +13,9 @@ export default class Profile extends Component {
 				name: props.navigation.getParam('name'),
 				email: props.navigation.getParam('email'),
 				phone: props.navigation.getParam('phone'),
+				url: props.navigation.getParam('url'),
 			},
+			urldefault: 'https://i1.wp.com/static.teamtreehouse.com/assets/content/default_avatar-ea7cf6abde4eec089a4e03cc925d0e893e428b2b6971b12405a9b118c837eaa2.png?ssl=1',
 		}
 	}
 
@@ -31,10 +33,16 @@ export default class Profile extends Component {
 					leftPress={() => this.props.navigation.goBack()}
 				/>
 				<View style={styles.content}>
-					<Image style={{width: 100, height: 100, borderRadius: 100}} source={{uri: 'https://i1.wp.com/static.teamtreehouse.com/assets/content/default_avatar-ea7cf6abde4eec089a4e03cc925d0e893e428b2b6971b12405a9b118c837eaa2.png?ssl=1'}}/>
-					<Text numberOfLines={2} style={[styles.text, {fontSize: 20, padding: 10}]}>{this.state.person.name}</Text>
-					<Text numberOfLines={1} style={[styles.text, {padding: 5}]}>{this.state.person.email}</Text>
-					<Text numberOfLines={1} style={[styles.text, {padding: 5}]}>{this.state.person.phone}</Text>
+					<Image style={{width: 100, height: 100, borderRadius: 100}} source={{uri: this.state.person.url || this.state.urldefault}}/>
+					<Text numberOfLines={2} style={[styles.text, {fontSize: 24, padding: 10}]}>{this.state.person.name}</Text>
+					<View style={{flexDirection: 'row', justifyContent: 'center', alignItems: 'center'}}>
+						<Image style={{width: 20, height: 20, marginRight: 10}} source={require('../assets/icons/email.png')}/>
+						<Text numberOfLines={1} style={[styles.text, {padding: 5}]}>{this.state.person.email}</Text>
+					</View>
+					<View style={{flexDirection: 'row', justifyContent: 'center', alignItems: 'center'}}>
+						<Image style={{width: 20, height: 20, marginRight: 10}} source={require('../assets/icons/phone.png')}/>
+						<Text numberOfLines={1} style={[styles.text, {padding: 5}]}>{this.state.person.phone}</Text>
+					</View>
 				</View>
 				<Modal
 			        animationType="fade"
@@ -64,7 +72,7 @@ export default class Profile extends Component {
 
 const styles = StyleSheet.create({
 	content: {
-		marginTop: 10,
+		marginTop: 20,
 		justifyContent: 'center',
 		alignItems: 'center',
 	},
