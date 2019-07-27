@@ -8,6 +8,7 @@ export default class SignUp extends Component {
 		uid			: null,
 		email       : '',
 		name		: '',
+		urldefault  : 'https://i1.wp.com/static.teamtreehouse.com/assets/content/default_avatar-ea7cf6abde4eec089a4e03cc925d0e893e428b2b6971b12405a9b118c837eaa2.png?ssl=1',
 		phone		: '',
 		password    : '',
 		latitude    : null,
@@ -46,6 +47,7 @@ export default class SignUp extends Component {
 							name     : this.state.name,
 							phone    : this.state.phone,
 							email    : this.state.email,
+							url      : this.state.urldefault,
 							latitude : this.state.latitude,
 							longitude: this.state.longitude,
 						});

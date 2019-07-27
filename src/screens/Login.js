@@ -7,14 +7,40 @@ export default class Login extends Component {
 	state = { 
 		email       : '',
 		password    : '',
+		latitude    : null,
+		longitude   : null,
+		error       : null,
 		errorMessage: null,
 	}
+
+	componentDidMount() {
+	    navigator.geolocation.getCurrentPosition(
+	       	(position) => {
+	         	console.log("wokeeey");
+	         	console.log(position);
+	         	this.setState({
+		           	latitude: position.coords.latitude,
+		           	longitude: position.coords.longitude,
+		           	error: null,
+	         	});
+	       	},
+	       	(error) => this.setState({ error: error.message }),
+	       	{ enableHighAccuracy: false, timeout: 200000, maximumAge: 1000 },
+	    );
+   	}
 
 	handleLogin = () => {
 		const { email, password } = this.state;
 		firebase.auth()
 	     		.signInWithEmailAndPassword(email, password)
-	     		.then(() => this.props.navigation.navigate('Home'))
+	     		.then(() => {
+					const uid = firebase.auth().currentUser.uid;
+					firebase.database().ref('users/' + uid).update({
+						latitude : this.state.latitude,
+						longitude: this.state.longitude,
+					});
+					this.props.navigation.navigate('Home');
+				})
 	     		.catch(error => this.setState({ errorMessage: error.message }))
 	}
 

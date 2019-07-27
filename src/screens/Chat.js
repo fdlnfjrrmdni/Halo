@@ -15,7 +15,7 @@ export default class Chat extends Component {
 				email: props.navigation.getParam('email'),
 				phone: props.navigation.getParam('phone'),
 				url: props.navigation.getParam('url'),
-				longitude: props.navigation.getParam('langitude'),
+				longitude: props.navigation.getParam('longitude'),
 				latitude: props.navigation.getParam('latitude'),
 			},
 			textMessage: '',

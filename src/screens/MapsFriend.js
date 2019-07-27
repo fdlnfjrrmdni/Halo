@@ -16,7 +16,7 @@ export default class Maps extends Component {
 					email: props.navigation.getParam('email'),
 					phone: props.navigation.getParam('phone'),
 					url: props.navigation.getParam('url'),
-					longitude: props.navigation.getParam('langitude'),
+					longitude: props.navigation.getParam('longitude'),
 					latitude: props.navigation.getParam('latitude'),
 				},
 				urldefault: 'https://i1.wp.com/static.teamtreehouse.com/assets/content/default_avatar-ea7cf6abde4eec089a4e03cc925d0e893e428b2b6971b12405a9b118c837eaa2.png?ssl=1',
@@ -28,6 +28,10 @@ export default class Maps extends Component {
 	}
 
 	render() {
+		console.log('latitude: ');
+		console.log(this.state.person.latitude);
+		console.log('longitude: ');
+		console.log(this.state.person.longitude);
 		return (
 			<View>
 				<StatusBar backgroundColor="transparent" barStyle="dark-content" />
@@ -48,7 +52,9 @@ export default class Maps extends Component {
 				       	}}
 				    >
 				    	<MapView.Marker
-					       coordinate={{latitude: this.state.person.latitude || 37.78825, longitude: this.state.person.longitude || -122.4324}}
+					       coordinate={{
+					       	latitude: this.state.person.latitude || 37.78825, 
+					       	longitude: this.state.person.longitude || -122.4324}}
 					       onPress={() => this.setModalVisible(true)}
 					    />
 				    </MapView>
