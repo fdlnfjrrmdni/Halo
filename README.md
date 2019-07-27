@@ -38,4 +38,4 @@ Halo is messaging app with map. It allows users to send text messages and tracki
 
 ## Release APK
 
-[Halo](https://drive.google.com/open?id=1eg_r-hfHknQ2K9rgQYCJSy9WPHMB3i9b)
+Click and download [this](https://drive.google.com/open?id=1eg_r-hfHknQ2K9rgQYCJSy9WPHMB3i9b)
