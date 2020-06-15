@@ -2,11 +2,11 @@
 <img src="https://raw.githubusercontent.com/fdlnfjrrmdni/halo/master/android/app/src/main/res/mipmap-xxxhdpi/ic_launcher.png" width="200"></p>
 
 <div>
-  <img src="https://raw.githubusercontent.com/fdlnfjrrmdni/simple-note-fullstack/master/src/Assets/Screenshots/note1.png" width="280">
-  <img src="https://raw.githubusercontent.com/fdlnfjrrmdni/simple-note-fullstack/master/src/Assets/Screenshots/note2.png" width="280">
-  <img src="https://raw.githubusercontent.com/fdlnfjrrmdni/simple-note-fullstack/master/src/Assets/Screenshots/note3.png" width="280">
-  <img src="https://raw.githubusercontent.com/fdlnfjrrmdni/simple-note-fullstack/master/src/Assets/Screenshots/note4.png" width="280">
-  <img src="https://raw.githubusercontent.com/fdlnfjrrmdni/simple-note-fullstack/master/src/Assets/Screenshots/note5.png" width="280">
+  <img src="https://raw.githubusercontent.com/fdlnfjrrmdni/halo/master/src/assets/screenshoots/halo1.png" width="280">
+  <img src="https://raw.githubusercontent.com/fdlnfjrrmdni/halo/master/src/assets/screenshoots/halo2.png" width="280">
+  <img src="https://raw.githubusercontent.com/fdlnfjrrmdni/halo/master/src/assets/screenshoots/halo3.png" width="280">
+  <img src="https://raw.githubusercontent.com/fdlnfjrrmdni/halo/master/src/assets/screenshoots/halo4.png" width="280">
+  <img src="https://raw.githubusercontent.com/fdlnfjrrmdni/halo/master/src/assets/screenshoots/halo5.png" width="280">
 </div>
 
 ## Table of Contents
